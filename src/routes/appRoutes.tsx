@@ -8,14 +8,24 @@ import Step1BusinessInfo from "../app/seller/Step1BusinessInfo";
 import Step2StoreDetails from "../app/seller/Step2StoreDetails";
 import Step3BankDetails from "../app/seller/Step3BankDetails";
 import OnboardingSuccess from "../app/seller/OnboardingSuccess";
+import MarketplaceLayout from "../shared/layouts/MarketplaceLayout";
+import MarketplaceHome from "../app/customer/MarketplaceHome";
+import ProductListing from "../app/customer/ProductListing";
 
 function AppRoutes() {
   return (
+    // done with prompt 4 start from 5
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginScreen />} />
       <Route path="/signup" element={<SignupScreen />} />
       <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
+
+      {/* Customer Marketplace Layout */}
+      <Route path="/home" element={<MarketplaceLayout />}>
+        <Route index element={<MarketplaceHome />} />
+        <Route path="products" element={<ProductListing />} />
+      </Route>
 
       {/* Multi-page Onboarding Stepper */}
       <Route path="/seller/onboarding" element={<SellerOnboardingScreen />}>

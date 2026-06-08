@@ -65,7 +65,7 @@ export const SignupScreen: React.FC = () => {
         password,
       });
       // Redirect to home/dashboard
-      navigate('/');
+      navigate('/home');
     } catch (err: any) {
       setApiError(err.message || 'Registration failed. Please try again.');
     } finally {

@@ -37,7 +37,7 @@ export const LoginScreen: React.FC = () => {
       if (response.user.role === 'seller') {
         navigate('/seller/onboarding');
       } else {
-        navigate('/'); // Go back to Home
+        navigate('/home'); // Go to marketplace Home
       }
     } catch (err: any) {
       setError(err.message || 'Incorrect credentials. Please try again.');
@@ -141,7 +141,7 @@ export const LoginScreen: React.FC = () => {
               setIsLoading(true);
               setTimeout(() => {
                 setIsLoading(false);
-                navigate('/');
+                navigate('/home');
               }, 800);
             }}
             className="flex items-center justify-center gap-2.5 bg-white hover:bg-slate-50 border-slate-200 text-slate-700 hover:text-slate-800 text-sm font-semibold transition-all py-3 shadow-2xs"
