@@ -16,6 +16,8 @@ import ShoppingCart from "../app/customer/ShoppingCart";
 import AddressManagement from "../app/customer/AddressManagement";
 import CheckoutPage from "../app/customer/CheckoutPage";
 import MyOrders from "../app/customer/MyOrders";
+import SellerLayout from "../app/seller/dashboard/SellerLayout";
+import DashboardHome from "../app/seller/dashboard/DashboardHome";
 
 function AppRoutes() {
   return (
@@ -35,6 +37,12 @@ function AppRoutes() {
         <Route path="checkout" element={<CheckoutPage />} />
         <Route path="addresses" element={<AddressManagement />} />
         <Route path="orders" element={<MyOrders />} />
+      </Route>
+
+      {/* Seller Dashboard */}
+      <Route path="/seller" element={<SellerLayout />}>
+        <Route index element={<Navigate to="dashboard" replace />} />
+        <Route path="dashboard" element={<DashboardHome />} />
       </Route>
 
       {/* Multi-page Onboarding Stepper */}

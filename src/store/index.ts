@@ -7,6 +7,8 @@ import notificationReducer from './slices/notificationSlice';
 import productsReducer from './slices/productsSlice';
 import addressesReducer from './slices/addressesSlice';
 import ordersReducer from './slices/ordersSlice';
+import dashboardReducer from './slices/dashboardSlice';
+import { sellerApi } from './services/sellerApi';
 
 export const store = configureStore({
   reducer: {
@@ -17,7 +19,11 @@ export const store = configureStore({
     products: productsReducer,
     addresses: addressesReducer,
     orders: ordersReducer,
+    dashboard: dashboardReducer,
+    [sellerApi.reducerPath]: sellerApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(sellerApi.middleware),
 });
 
 // RootState and AppDispatch types derived from the store structure

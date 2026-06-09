@@ -35,7 +35,7 @@ export const LoginScreen: React.FC = () => {
       
       // Redirect based on user role
       if (response.user.role === 'seller') {
-        navigate('/seller/onboarding');
+        navigate('/seller/dashboard');
       } else {
         navigate('/home'); // Go to marketplace Home
       }
