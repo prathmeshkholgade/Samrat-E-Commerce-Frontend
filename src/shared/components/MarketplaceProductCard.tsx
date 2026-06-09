@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Star, Eye, ShoppingCart, Heart } from 'lucide-react';
 import type { Product } from '../types';
 
@@ -81,7 +82,7 @@ export const MarketplaceProductCard: React.FC<MarketplaceProductCardProps> = ({
         </button>
 
         {/* Product Image Section */}
-        <div className="w-full sm:w-48 h-48 bg-slate-50 rounded-xl relative overflow-hidden flex-shrink-0 border border-slate-100/55 flex items-center justify-center">
+        <Link to={`/home/products/${product.id}`} className="w-full sm:w-48 h-48 bg-slate-50 rounded-xl relative overflow-hidden flex-shrink-0 border border-slate-100/55 flex items-center justify-center cursor-pointer block">
           <img
             src={product.image}
             alt={product.title}
@@ -103,7 +104,7 @@ export const MarketplaceProductCard: React.FC<MarketplaceProductCardProps> = ({
               </span>
             )}
           </div>
-        </div>
+        </Link>
 
         {/* Details & Actions Section */}
         <div className="flex-grow flex flex-col justify-between py-1">
@@ -117,9 +118,11 @@ export const MarketplaceProductCard: React.FC<MarketplaceProductCardProps> = ({
               </div>
               
               {/* Title */}
-              <h3 className="text-base font-bold text-slate-850 group-hover:text-indigo-600 transition-colors mt-1 leading-snug">
-                {product.title}
-              </h3>
+              <Link to={`/home/products/${product.id}`} className="block cursor-pointer">
+                <h3 className="text-base font-bold text-slate-850 group-hover:text-indigo-600 transition-colors mt-1 leading-snug">
+                  {product.title}
+                </h3>
+              </Link>
             </div>
 
             {/* Rating */}
@@ -219,28 +222,30 @@ export const MarketplaceProductCard: React.FC<MarketplaceProductCardProps> = ({
 
       {/* Product Image Section */}
       <div className="aspect-square bg-slate-50 relative overflow-hidden flex-shrink-0">
-        <img
-          src={product.image}
-          alt={product.title}
-          className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${
-            !product.inStock ? 'opacity-60 grayscale-[40%]' : ''
-          }`}
-        />
+        <Link to={`/home/products/${product.id}`} className="block w-full h-full cursor-pointer">
+          <img
+            src={product.image}
+            alt={product.title}
+            className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${
+              !product.inStock ? 'opacity-60 grayscale-[40%]' : ''
+            }`}
+          />
+        </Link>
         
         {/* Quick Actions Hover Drawer */}
-        <div className="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+        <div className="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 pointer-events-none">
           {product.inStock && (
             <button
-              onClick={() => onAddToCart?.(product)}
-              className="p-3 bg-white text-slate-800 hover:bg-indigo-600 hover:text-white rounded-xl shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:scale-105 cursor-pointer"
+              onClick={(e) => { e.stopPropagation(); onAddToCart?.(product); }}
+              className="p-3 bg-white text-slate-800 hover:bg-indigo-600 hover:text-white rounded-xl shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:scale-105 cursor-pointer pointer-events-auto"
               title="Add to Cart"
             >
               <ShoppingCart size={18} />
             </button>
           )}
           <button
-            onClick={() => onQuickView?.(product)}
-            className="p-3 bg-white text-slate-800 hover:bg-indigo-600 hover:text-white rounded-xl shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-[50ms] hover:scale-105 cursor-pointer"
+            onClick={(e) => { e.stopPropagation(); onQuickView?.(product); }}
+            className="p-3 bg-white text-slate-800 hover:bg-indigo-600 hover:text-white rounded-xl shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-[50ms] hover:scale-105 cursor-pointer pointer-events-auto"
             title="Quick View"
           >
             <Eye size={18} />
@@ -257,9 +262,11 @@ export const MarketplaceProductCard: React.FC<MarketplaceProductCardProps> = ({
           </span>
           
           {/* Title */}
-          <h3 className="text-sm font-semibold text-slate-800 line-clamp-2 leading-snug group-hover:text-indigo-600 transition-colors h-10">
-            {product.title}
-          </h3>
+          <Link to={`/home/products/${product.id}`} className="block cursor-pointer">
+            <h3 className="text-sm font-semibold text-slate-800 line-clamp-2 leading-snug group-hover:text-indigo-600 transition-colors h-10">
+              {product.title}
+            </h3>
+          </Link>
 
           {/* Rating */}
           <div className="flex items-center gap-1.5 pt-0.5">

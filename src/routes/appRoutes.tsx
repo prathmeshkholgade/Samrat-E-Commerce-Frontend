@@ -11,6 +11,11 @@ import OnboardingSuccess from "../app/seller/OnboardingSuccess";
 import MarketplaceLayout from "../shared/layouts/MarketplaceLayout";
 import MarketplaceHome from "../app/customer/MarketplaceHome";
 import ProductListing from "../app/customer/ProductListing";
+import ProductDetails from "../app/customer/ProductDetails";
+import ShoppingCart from "../app/customer/ShoppingCart";
+import AddressManagement from "../app/customer/AddressManagement";
+import CheckoutPage from "../app/customer/CheckoutPage";
+import MyOrders from "../app/customer/MyOrders";
 
 function AppRoutes() {
   return (
@@ -25,6 +30,11 @@ function AppRoutes() {
       <Route path="/home" element={<MarketplaceLayout />}>
         <Route index element={<MarketplaceHome />} />
         <Route path="products" element={<ProductListing />} />
+        <Route path="products/:id" element={<ProductDetails />} />
+        <Route path="cart" element={<ShoppingCart />} />
+        <Route path="checkout" element={<CheckoutPage />} />
+        <Route path="addresses" element={<AddressManagement />} />
+        <Route path="orders" element={<MyOrders />} />
       </Route>
 
       {/* Multi-page Onboarding Stepper */}

@@ -23,7 +23,7 @@ import {
   Mail
 } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../store';
-import { removeFromCart, updateQuantity, clearCart } from '../../store/slices/cartSlice';
+import { removeFromCart, updateQuantity } from '../../store/slices/cartSlice';
 import { logout } from '../../store/slices/authSlice';
 import { markAsRead, markAllAsRead, clearAllNotifications } from '../../store/slices/notificationSlice';
 
@@ -224,8 +224,8 @@ export const MarketplaceLayout: React.FC = () => {
 
               {/* Cart Toggle */}
               <button
-                onClick={() => setIsCartOpen(true)}
-                className="p-2.5 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 text-slate-600 hover:text-indigo-600 relative transition-all cursor-pointer"
+                onClick={() => navigate('/home/cart')}
+                className="p-2.5 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 text-slate-650 hover:text-indigo-650 relative transition-all cursor-pointer"
                 title="Shopping Cart"
               >
                 <ShoppingBag size={20} />
@@ -274,8 +274,8 @@ export const MarketplaceLayout: React.FC = () => {
                         <span>My Profile</span>
                       </button>
                       <button
-                        onClick={() => { setIsProfileOpen(false); alert('My Orders Registry'); }}
-                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-55 hover:text-indigo-600 transition-colors"
+                        onClick={() => { setIsProfileOpen(false); navigate('/home/orders'); }}
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-55 hover:text-indigo-650 transition-colors"
                       >
                         <OrderIcon size={15} className="text-slate-400" />
                         <span>Orders</span>
@@ -288,8 +288,8 @@ export const MarketplaceLayout: React.FC = () => {
                         <span>Wishlist</span>
                       </button>
                       <button
-                        onClick={() => { setIsProfileOpen(false); alert('Address Settings'); }}
-                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-55 hover:text-indigo-600 transition-colors"
+                        onClick={() => { setIsProfileOpen(false); navigate('/home/addresses'); }}
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-55 hover:text-indigo-650 transition-colors"
                       >
                         <MapPin size={15} className="text-slate-400" />
                         <span>Addresses</span>
@@ -322,8 +322,8 @@ export const MarketplaceLayout: React.FC = () => {
               
               {/* Cart Quick Toggle */}
               <button
-                onClick={() => setIsCartOpen(true)}
-                className="p-2 text-slate-650 hover:text-indigo-600 relative cursor-pointer"
+                onClick={() => navigate('/home/cart')}
+                className="p-2 text-slate-650 hover:text-indigo-650 relative cursor-pointer"
               >
                 <ShoppingBag size={22} />
                 {cart.totalQuantity > 0 && (
@@ -376,7 +376,7 @@ export const MarketplaceLayout: React.FC = () => {
                   <span>My Profile</span>
                 </button>
                 <button
-                  onClick={() => { setIsMobileMenuOpen(false); alert('Orders'); }}
+                  onClick={() => { setIsMobileMenuOpen(false); navigate('/home/orders'); }}
                   className="w-full text-left py-3.5 px-2 text-sm font-semibold text-slate-700 flex items-center gap-2.5"
                 >
                   <OrderIcon size={18} className="text-slate-400" />
@@ -452,8 +452,10 @@ export const MarketplaceLayout: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                cart.items.map((item) => (
-                  <div key={item.product.id} className="py-4 flex gap-4 first:pt-0">
+                cart.items.map((item) => {
+                const itemKey = `${item.product.id}-${item.selectedColor || ''}-${item.selectedSize || ''}`;
+                return (
+                  <div key={itemKey} className="py-4 flex gap-4 first:pt-0">
                     <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-50 flex-shrink-0 border border-slate-100">
                       <img src={item.product.image} alt={item.product.title} className="w-full h-full object-cover" />
                     </div>
@@ -462,7 +464,21 @@ export const MarketplaceLayout: React.FC = () => {
                         <h4 className="text-xs font-semibold text-slate-800 line-clamp-1 leading-snug">
                           {item.product.title}
                         </h4>
-                        <span className="text-[10px] text-slate-400 font-bold uppercase block mt-0.5">
+                        {(item.selectedColor || item.selectedSize) && (
+                          <div className="flex flex-wrap gap-1.5 mt-0.5">
+                            {item.selectedColor && (
+                              <span className="text-[9px] font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded flex items-center gap-1">
+                                Color: <span className="w-2 h-2 rounded-full border border-slate-300" style={{ backgroundColor: item.selectedColor }} />
+                              </span>
+                            )}
+                            {item.selectedSize && (
+                              <span className="text-[9px] font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">
+                                Size: {item.selectedSize}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                        <span className="text-[10px] text-slate-400 font-bold uppercase block mt-1">
                           Seller: {item.product.vendorName}
                         </span>
                       </div>
@@ -470,14 +486,14 @@ export const MarketplaceLayout: React.FC = () => {
                       <div className="flex items-center justify-between pt-1">
                         <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-100 rounded-lg p-0.5">
                           <button
-                            onClick={() => dispatch(updateQuantity({ productId: item.product.id, quantity: item.quantity - 1 }))}
+                            onClick={() => dispatch(updateQuantity({ productId: item.product.id, quantity: item.quantity - 1, color: item.selectedColor, size: item.selectedSize }))}
                             className="p-1 text-slate-500 hover:text-indigo-650 cursor-pointer"
                           >
                             <Minus size={11} />
                           </button>
                           <span className="text-xs font-bold text-slate-800 px-1">{item.quantity}</span>
                           <button
-                            onClick={() => dispatch(updateQuantity({ productId: item.product.id, quantity: item.quantity + 1 }))}
+                            onClick={() => dispatch(updateQuantity({ productId: item.product.id, quantity: item.quantity + 1, color: item.selectedColor, size: item.selectedSize }))}
                             className="p-1 text-slate-500 hover:text-indigo-650 cursor-pointer"
                           >
                             <Plus size={11} />
@@ -489,8 +505,8 @@ export const MarketplaceLayout: React.FC = () => {
                             ${(item.product.price * item.quantity).toFixed(2)}
                           </span>
                           <button
-                            onClick={() => dispatch(removeFromCart(item.product.id))}
-                            className="text-slate-450 hover:text-rose-500 cursor-pointer"
+                            onClick={() => dispatch(removeFromCart({ productId: item.product.id, color: item.selectedColor, size: item.selectedSize }))}
+                            className="text-slate-455 hover:text-rose-500 cursor-pointer"
                             title="Remove item"
                           >
                             <Trash2 size={14} />
@@ -500,7 +516,8 @@ export const MarketplaceLayout: React.FC = () => {
 
                     </div>
                   </div>
-                ))
+                );
+              })
               )}
             </div>
 
@@ -525,20 +542,22 @@ export const MarketplaceLayout: React.FC = () => {
 
                 <div className="flex gap-3 pt-2">
                   <button
-                    onClick={() => dispatch(clearCart())}
-                    className="px-4 py-3 bg-white border border-slate-200 hover:border-slate-350 text-slate-650 text-xs font-bold rounded-xl cursor-pointer"
+                    onClick={() => {
+                      setIsCartOpen(false);
+                      navigate('/home/cart');
+                    }}
+                    className="w-1/2 py-3.5 bg-white border border-slate-200 hover:border-slate-350 text-slate-650 text-xs font-bold rounded-xl cursor-pointer text-center"
                   >
-                    Clear Cart
+                    View Cart
                   </button>
                   <button
                     onClick={() => {
-                      alert('Checkout process initiated! Total amount: $' + cart.totalAmount.toFixed(2));
-                      dispatch(clearCart());
                       setIsCartOpen(false);
+                      navigate('/home/cart');
                     }}
-                    className="flex-grow py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-lg shadow-indigo-100 flex items-center justify-center gap-1.5 cursor-pointer hover:scale-[1.01] active:scale-[0.99] transition-all"
+                    className="w-1/2 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-lg shadow-indigo-100 flex items-center justify-center gap-1.5 cursor-pointer hover:scale-[1.01] active:scale-[0.99] transition-all"
                   >
-                    <span>Proceed To Checkout</span>
+                    <span>Checkout</span>
                   </button>
                 </div>
               </div>
