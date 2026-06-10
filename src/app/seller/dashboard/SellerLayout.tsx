@@ -39,13 +39,13 @@ export const SellerLayout: React.FC = () => {
   // Navigation Links definition
   const menuItems = [
     { label: 'Dashboard', path: '/seller/dashboard', icon: <LayoutDashboard size={18} /> },
-    { label: 'Products', path: '#', icon: <ShoppingBag size={18} /> },
-    { label: 'Orders', path: '#', icon: <ShoppingBag size={18} /> },
-    { label: 'Inventory', path: '#', icon: <Box size={18} /> },
-    { label: 'Customers', path: '#', icon: <Users size={18} /> },
-    { label: 'Reviews', path: '#', icon: <MessageSquare size={18} /> },
-    { label: 'Coupons', path: '#', icon: <Tag size={18} /> },
-    { label: 'Wallet & Earnings', path: '#', icon: <Wallet size={18} /> },
+    { label: 'Products', path: '/seller/products', icon: <ShoppingBag size={18} /> },
+    { label: 'Orders', path: '/seller/orders', icon: <ShoppingBag size={18} /> },
+    { label: 'Inventory', path: '/seller/inventory', icon: <Box size={18} /> },
+    { label: 'Customers', path: '/seller/customers', icon: <Users size={18} /> },
+    { label: 'Reviews', path: '/seller/reviews', icon: <MessageSquare size={18} /> },
+    { label: 'Coupons', path: '/seller/coupons', icon: <Tag size={18} /> },
+    { label: 'Wallet & Earnings', path: '/seller/wallet', icon: <Wallet size={18} /> },
     { label: 'Analytics', path: '#', icon: <BarChart2 size={18} /> },
     { label: 'Notifications', path: '#', icon: <Bell size={18} /> },
     { label: 'Store Settings', path: '#', icon: <Settings size={18} /> },
@@ -66,7 +66,7 @@ export const SellerLayout: React.FC = () => {
       {/* 1. DESKTOP SIDEBAR PANEL                                  */}
       {/* ======================================================== */}
       <aside 
-        className={`hidden md:flex flex-col bg-white border-r border-slate-150/50 transition-all duration-300 relative z-30 ${
+        className={`hidden md:flex flex-col bg-white border-r border-slate-150/50 transition-all duration-300 sticky top-0 h-screen z-30 ${
           isSidebarCollapsed ? 'w-20' : 'w-64'
         }`}
       >

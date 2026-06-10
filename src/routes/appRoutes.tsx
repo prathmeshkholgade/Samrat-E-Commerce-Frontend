@@ -18,6 +18,16 @@ import CheckoutPage from "../app/customer/CheckoutPage";
 import MyOrders from "../app/customer/MyOrders";
 import SellerLayout from "../app/seller/dashboard/SellerLayout";
 import DashboardHome from "../app/seller/dashboard/DashboardHome";
+import ProductsList from "../app/seller/dashboard/products/ProductsList";
+import CreateProduct from "../app/seller/dashboard/products/CreateProduct";
+import OrdersList from "../app/seller/dashboard/orders/OrdersList";
+import OrderDetailPage from "../app/seller/dashboard/orders/OrderDetailPage";
+import InventoryList from "../app/seller/dashboard/inventory/InventoryList";
+import CustomersList from "../app/seller/dashboard/customers/CustomersList";
+import CustomerDetailPage from "../app/seller/dashboard/customers/CustomerDetailPage";
+import ReviewsList from "../app/seller/dashboard/reviews/ReviewsList";
+import CouponsList from "../app/seller/dashboard/coupons/CouponsList";
+import WalletList from "../app/seller/dashboard/wallet/WalletList";
 
 function AppRoutes() {
   return (
@@ -43,6 +53,16 @@ function AppRoutes() {
       <Route path="/seller" element={<SellerLayout />}>
         <Route index element={<Navigate to="dashboard" replace />} />
         <Route path="dashboard" element={<DashboardHome />} />
+        <Route path="products" element={<ProductsList />} />
+        <Route path="products/create" element={<CreateProduct />} />
+        <Route path="orders" element={<OrdersList />} />
+        <Route path="orders/:id" element={<OrderDetailPage />} />
+        <Route path="inventory" element={<InventoryList />} />
+        <Route path="customers" element={<CustomersList />} />
+        <Route path="customers/:id" element={<CustomerDetailPage />} />
+        <Route path="reviews" element={<ReviewsList />} />
+        <Route path="coupons" element={<CouponsList />} />
+        <Route path="wallet" element={<WalletList />} />
       </Route>
 
       {/* Multi-page Onboarding Stepper */}

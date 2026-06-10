@@ -8,6 +8,14 @@ import productsReducer from './slices/productsSlice';
 import addressesReducer from './slices/addressesSlice';
 import ordersReducer from './slices/ordersSlice';
 import dashboardReducer from './slices/dashboardSlice';
+import sellerProductsReducer from './slices/sellerProductsSlice';
+import productCreateReducer from './slices/productCreateSlice';
+import sellerOrdersReducer from './slices/sellerOrdersSlice';
+import inventoryReducer from './slices/inventorySlice';
+import sellerCustomersReducer from './slices/sellerCustomersSlice';
+import sellerReviewsReducer from './slices/sellerReviewsSlice';
+import sellerCouponsReducer from './slices/sellerCouponsSlice';
+import sellerWalletReducer from './slices/sellerWalletSlice';
 import { sellerApi } from './services/sellerApi';
 
 export const store = configureStore({
@@ -20,6 +28,14 @@ export const store = configureStore({
     addresses: addressesReducer,
     orders: ordersReducer,
     dashboard: dashboardReducer,
+    sellerProducts: sellerProductsReducer,
+    productCreate: productCreateReducer,
+    sellerOrders: sellerOrdersReducer,
+    inventory: inventoryReducer,
+    sellerCustomers: sellerCustomersReducer,
+    sellerReviews: sellerReviewsReducer,
+    sellerCoupons: sellerCouponsReducer,
+    sellerWallet: sellerWalletReducer,
     [sellerApi.reducerPath]: sellerApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
