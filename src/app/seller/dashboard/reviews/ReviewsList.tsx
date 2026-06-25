@@ -16,10 +16,10 @@ import {
 import type { SellerReview } from '../../../../shared/types';
 
 // Components
-import ReviewAnalytics from './components/ReviewAnalytics';
-import ReviewFilters from './components/ReviewFilters';
-import ReviewTable from './components/ReviewTable';
-import ReplyReviewModal from './components/ReplyReviewModal';
+import ReviewAnalytics from '../../../../features/seller/components/reviews/ReviewAnalytics';
+import ReviewFilters from '../../../../features/seller/components/reviews/ReviewFilters';
+import ReviewTable from '../../../../features/seller/components/reviews/ReviewTable';
+import ReplyReviewModal from '../../../../features/seller/components/reviews/ReplyReviewModal';
 
 export const ReviewsList: React.FC = () => {
   const dispatch = useAppDispatch();

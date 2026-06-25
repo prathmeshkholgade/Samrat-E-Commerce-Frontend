@@ -28,8 +28,8 @@ import {
   useUpdateOrderStatusMutation,
 } from '../../../../store/services/sellerApi';
 import type { SellerOrder } from '../../../../shared/types';
-import OrderStatusBadge from './components/OrderStatusBadge';
-import InvoiceTemplate from './components/InvoiceTemplate';
+import OrderStatusBadge from '../../../../features/seller/components/orders/OrderStatusBadge';
+import InvoiceTemplate from '../../../../features/seller/components/orders/InvoiceTemplate';
 
 const STATUS_STEPS = [
   { key: 'Pending', label: 'Order Placed', desc: 'Order received, awaiting acceptance' },

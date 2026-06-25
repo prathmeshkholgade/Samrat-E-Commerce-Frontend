@@ -39,9 +39,9 @@ import {
 import type { SellerProduct } from '../../../../shared/types';
 
 // Reusable components
-import ProductTable from './components/ProductTable';
-import ProductFilters from './components/ProductFilters';
-import ProductModal from './components/ProductModal';
+import ProductTable from '../../../../features/seller/components/products/ProductTable';
+import ProductFilters from '../../../../features/seller/components/products/ProductFilters';
+import ProductModal from '../../../../features/seller/components/products/ProductModal';
 
 export const ProductsList: React.FC = () => {
   const dispatch = useAppDispatch();

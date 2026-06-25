@@ -28,6 +28,22 @@ import CustomerDetailPage from "../app/seller/dashboard/customers/CustomerDetail
 import ReviewsList from "../app/seller/dashboard/reviews/ReviewsList";
 import CouponsList from "../app/seller/dashboard/coupons/CouponsList";
 import WalletList from "../app/seller/dashboard/wallet/WalletList";
+import NotificationsScreen from "../app/seller/dashboard/notifications/NotificationsScreen";
+import AnalyticsScreen from "../app/seller/dashboard/analytics/AnalyticsScreen";
+import SettingsScreen from "../app/seller/dashboard/settings/SettingsScreen";
+import AdminLayout from "../app/admin/AdminLayout";
+import AdminDashboard from "../app/admin/AdminDashboard";
+import AdminSellersPage from "../app/admin/AdminSellersPage";
+import AdminSellerDetailsPage from "../app/admin/AdminSellerDetailsPage";
+import AdminProductsPage from "../app/admin/AdminProductsPage";
+import AdminProductReviewPage from "../app/admin/AdminProductReviewPage";
+import { AdminOrdersPage } from "../app/admin/AdminOrdersPage";
+import { AdminOrderDetailPage } from "../app/admin/AdminOrderDetailPage";
+import { AdminCustomersPage } from "../app/admin/AdminCustomersPage";
+import { AdminCustomerDetailPage } from "../app/admin/AdminCustomerDetailPage";
+import { AdminCategoriesPage } from "../app/admin/AdminCategoriesPage";
+import { AdminAnalyticsPage } from "../app/admin/AdminAnalyticsPage";
+import { AdminSettingsPage } from "../app/admin/AdminSettingsPage";
 
 function AppRoutes() {
   return (
@@ -63,6 +79,9 @@ function AppRoutes() {
         <Route path="reviews" element={<ReviewsList />} />
         <Route path="coupons" element={<CouponsList />} />
         <Route path="wallet" element={<WalletList />} />
+        <Route path="notifications" element={<NotificationsScreen />} />
+        <Route path="analytics" element={<AnalyticsScreen />} />
+        <Route path="settings" element={<SettingsScreen />} />
       </Route>
 
       {/* Multi-page Onboarding Stepper */}
@@ -72,6 +91,22 @@ function AppRoutes() {
         <Route path="step-2" element={<Step2StoreDetails />} />
         <Route path="step-3" element={<Step3BankDetails />} />
         <Route path="success" element={<OnboardingSuccess />} />
+      </Route>
+
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<Navigate to="dashboard" replace />} />
+        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="sellers" element={<AdminSellersPage />} />
+        <Route path="sellers/:id" element={<AdminSellerDetailsPage />} />
+        <Route path="products" element={<AdminProductsPage />} />
+        <Route path="products/:id" element={<AdminProductReviewPage />} />
+        <Route path="orders" element={<AdminOrdersPage />} />
+        <Route path="orders/:id" element={<AdminOrderDetailPage />} />
+        <Route path="customers" element={<AdminCustomersPage />} />
+        <Route path="customers/:id" element={<AdminCustomerDetailPage />} />
+        <Route path="categories" element={<AdminCategoriesPage />} />
+        <Route path="analytics" element={<AdminAnalyticsPage />} />
+        <Route path="settings" element={<AdminSettingsPage />} />
       </Route>
     </Routes>
   );

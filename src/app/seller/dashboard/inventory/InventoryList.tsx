@@ -22,13 +22,13 @@ import {
 import type { SellerProduct } from '../../../../shared/types';
 
 // Components
-import InventoryAnalytics from './components/InventoryAnalytics';
-import InventoryFilters from './components/InventoryFilters';
-import InventoryTable from './components/InventoryTable';
-import UpdateStockModal from './components/UpdateStockModal';
-import BulkUpdateStockModal from './components/BulkUpdateStockModal';
-import StockHistoryModal from './components/StockHistoryModal';
-import { LowStockWidget, OutOfStockWidget } from './components/InventoryWidgets';
+import InventoryAnalytics from '../../../../features/seller/components/inventory/InventoryAnalytics';
+import InventoryFilters from '../../../../features/seller/components/inventory/InventoryFilters';
+import InventoryTable from '../../../../features/seller/components/inventory/InventoryTable';
+import UpdateStockModal from '../../../../features/seller/components/inventory/UpdateStockModal';
+import BulkUpdateStockModal from '../../../../features/seller/components/inventory/BulkUpdateStockModal';
+import StockHistoryModal from '../../../../features/seller/components/inventory/StockHistoryModal';
+import { LowStockWidget, OutOfStockWidget } from '../../../../features/seller/components/inventory/InventoryWidgets';
 
 export const InventoryList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -139,7 +139,7 @@ export const InventoryList: React.FC = () => {
     }
   };
 
-  const handleBulkStockSave = async (amount: number, isAbsolute: boolean, lowStockThreshold?: number, notes: string) => {
+  const handleBulkStockSave = async (amount: number, isAbsolute: boolean, lowStockThreshold: number | undefined, notes: string) => {
     try {
       await bulkAdjustStock({
         productIds: selectedProductIds,

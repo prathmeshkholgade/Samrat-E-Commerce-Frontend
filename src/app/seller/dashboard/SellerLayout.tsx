@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { logout } from '../../../store/slices/authSlice';
+import { markAllAsRead, markAsRead } from '../../../store/slices/sellerNotificationsSlice';
 
 export const SellerLayout: React.FC = () => {
   const navigate = useNavigate();
@@ -29,6 +30,8 @@ export const SellerLayout: React.FC = () => {
   const location = useLocation();
 
   const auth = useAppSelector(state => state.auth);
+  const { items: sellerNotifications } = useAppSelector(state => state.sellerNotifications);
+  const unreadCount = sellerNotifications.filter(n => !n.read).length;
 
   // States
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -46,9 +49,9 @@ export const SellerLayout: React.FC = () => {
     { label: 'Reviews', path: '/seller/reviews', icon: <MessageSquare size={18} /> },
     { label: 'Coupons', path: '/seller/coupons', icon: <Tag size={18} /> },
     { label: 'Wallet & Earnings', path: '/seller/wallet', icon: <Wallet size={18} /> },
-    { label: 'Analytics', path: '#', icon: <BarChart2 size={18} /> },
-    { label: 'Notifications', path: '#', icon: <Bell size={18} /> },
-    { label: 'Store Settings', path: '#', icon: <Settings size={18} /> },
+    { label: 'Analytics', path: '/seller/analytics', icon: <BarChart2 size={18} /> },
+    { label: 'Notifications', path: '/seller/notifications', icon: <Bell size={18} /> },
+    { label: 'Store Settings', path: '/seller/settings', icon: <Settings size={18} /> },
     { label: 'Support', path: '#', icon: <HelpCircle size={18} /> },
   ];
 
@@ -272,29 +275,76 @@ export const SellerLayout: React.FC = () => {
                 title="Notifications"
               >
                 <Bell size={18} />
-                <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full bg-rose-600 border border-white" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-3.5 rounded-full bg-rose-600 text-white text-[8px] font-black flex items-center justify-center border border-white px-0.5">
+                    {unreadCount}
+                  </span>
+                )}
               </button>
 
               {isNotificationsOpen && (
                 <div className="absolute right-0 mt-3 w-72 rounded-2xl bg-white border border-slate-100 shadow-2xl py-3 z-50 text-left animate-in fade-in slide-in-from-top-3">
                   <div className="px-4 pb-2.5 border-b border-slate-100 flex items-center justify-between">
                     <span className="font-extrabold text-xs text-slate-900 uppercase tracking-wider">Alert Center</span>
-                    <button 
-                      onClick={() => setIsNotificationsOpen(false)}
-                      className="text-[9px] font-black text-indigo-600 hover:underline"
-                    >
-                      Dismiss all
-                    </button>
+                    {unreadCount > 0 && (
+                      <button 
+                        onClick={() => { dispatch(markAllAsRead()); }}
+                        className="text-[9px] font-black text-indigo-655 hover:underline cursor-pointer"
+                      >
+                        Dismiss all
+                      </button>
+                    )}
                   </div>
-                  <div className="py-1 max-h-[200px] overflow-y-auto divide-y divide-slate-50">
-                    <div className="px-4 py-2.5 text-xs font-semibold text-slate-650 hover:bg-slate-50/50">
-                      <p className="text-slate-800 font-extrabold leading-normal">Low Stock Alert</p>
-                      <p className="text-[10px] text-slate-400 mt-0.5">Premium Wireless Headphones (Grey) is running low (3 remaining).</p>
-                    </div>
-                    <div className="px-4 py-2.5 text-xs font-semibold text-slate-650 hover:bg-slate-50/50">
-                      <p className="text-slate-800 font-extrabold leading-normal">New Order Received</p>
-                      <p className="text-[10px] text-slate-400 mt-0.5">Order ORD-8942A placed by Rohan Sharma ($145.00).</p>
-                    </div>
+                  <div className="py-1 max-h-[220px] overflow-y-auto divide-y divide-slate-50">
+                    {sellerNotifications.length === 0 ? (
+                      <div className="px-4 py-8 text-center text-xs font-bold text-slate-400">
+                        No recent alerts
+                      </div>
+                    ) : (
+                      sellerNotifications.slice(0, 4).map((notif) => (
+                        <div 
+                          key={notif.id}
+                          onClick={() => {
+                            dispatch(markAsRead(notif.id));
+                            if (notif.type === 'New Order' && notif.targetId) {
+                              navigate(`/seller/orders/${notif.targetId}`);
+                            } else if (notif.type === 'Low Stock') {
+                              navigate('/seller/inventory');
+                            } else if (notif.type === 'Review') {
+                              navigate('/seller/reviews');
+                            } else if (notif.type === 'Promotion') {
+                              navigate('/seller/coupons');
+                            } else if (notif.type === 'Payout Update') {
+                              navigate('/seller/wallet');
+                            }
+                            setIsNotificationsOpen(false);
+                          }}
+                          className={`px-4 py-2.5 text-xs hover:bg-slate-50/50 cursor-pointer transition-colors text-left ${
+                            notif.read ? 'opacity-65' : 'bg-indigo-50/10'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <p className={`font-extrabold text-slate-850 truncate max-w-[200px] leading-normal ${!notif.read && 'text-slate-950 font-black'}`}>
+                              {notif.title}
+                            </p>
+                            {!notif.read && (
+                              <span className="w-1.5 h-1.5 rounded-full bg-indigo-605 shrink-0" />
+                            )}
+                          </div>
+                          <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-2 leading-relaxed">{notif.message}</p>
+                          <span className="text-[8px] text-slate-400 font-bold block mt-1 font-mono">{notif.timestamp}</span>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                  <div className="px-4 pt-2.5 pb-0.5 border-t border-slate-100 text-center bg-slate-50/30">
+                    <Link
+                      to="/seller/notifications"
+                      onClick={() => setIsNotificationsOpen(false)}
+                      className="text-[9px] font-black text-indigo-650 hover:underline uppercase tracking-wider block"
+                    >
+                      View All Notifications
+                    </Link>
                   </div>
                 </div>
               )}
@@ -325,13 +375,13 @@ export const SellerLayout: React.FC = () => {
                   </div>
                   <div className="py-1">
                     <button 
-                      onClick={() => { setIsProfileOpen(false); alert('Seller Business profile details.'); }}
+                      onClick={() => { setIsProfileOpen(false); navigate('/seller/settings'); }}
                       className="w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-indigo-650 transition-colors"
                     >
                       Store Profile
                     </button>
                     <button 
-                      onClick={() => { setIsProfileOpen(false); alert('Store settings panel.'); }}
+                      onClick={() => { setIsProfileOpen(false); navigate('/seller/settings'); }}
                       className="w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-indigo-650 transition-colors"
                     >
                       Account Settings

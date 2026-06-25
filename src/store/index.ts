@@ -16,6 +16,9 @@ import sellerCustomersReducer from './slices/sellerCustomersSlice';
 import sellerReviewsReducer from './slices/sellerReviewsSlice';
 import sellerCouponsReducer from './slices/sellerCouponsSlice';
 import sellerWalletReducer from './slices/sellerWalletSlice';
+import sellerNotificationsReducer from './slices/sellerNotificationsSlice';
+import sellerSettingsReducer from './slices/sellerSettingsSlice';
+import adminReducer from './slices/adminSlice';
 import { sellerApi } from './services/sellerApi';
 
 export const store = configureStore({
@@ -36,6 +39,9 @@ export const store = configureStore({
     sellerReviews: sellerReviewsReducer,
     sellerCoupons: sellerCouponsReducer,
     sellerWallet: sellerWalletReducer,
+    sellerNotifications: sellerNotificationsReducer,
+    sellerSettings: sellerSettingsReducer,
+    admin: adminReducer,
     [sellerApi.reducerPath]: sellerApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

@@ -13,8 +13,8 @@ import {
 } from '../../../../store/services/sellerApi';
 
 // Reusable components
-import CustomerFilters from './components/CustomerFilters';
-import CustomerTable from './components/CustomerTable';
+import CustomerFilters from '../../../../features/seller/components/customers/CustomerFilters';
+import CustomerTable from '../../../../features/seller/components/customers/CustomerTable';
 
 export const CustomersList: React.FC = () => {
   const dispatch = useAppDispatch();

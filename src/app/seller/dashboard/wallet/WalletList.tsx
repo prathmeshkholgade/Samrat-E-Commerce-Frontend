@@ -14,10 +14,10 @@ import {
   useRequestWithdrawalMutation,
 } from '../../../../store/services/sellerApi';
 
-import WalletCards from './components/WalletCards';
-import RevenueCharts from './components/RevenueCharts';
-import TransactionTable from './components/TransactionTable';
-import WithdrawModal from './components/WithdrawModal';
+import WalletCards from '../../../../features/seller/components/wallet/WalletCards';
+import RevenueCharts from '../../../../features/seller/components/wallet/RevenueCharts';
+import TransactionTable from '../../../../features/seller/components/wallet/TransactionTable';
+import WithdrawModal from '../../../../features/seller/components/wallet/WithdrawModal';
 
 export const WalletList: React.FC = () => {
   const dispatch = useAppDispatch();

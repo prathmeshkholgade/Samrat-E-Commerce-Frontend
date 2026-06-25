@@ -17,7 +17,7 @@ import {
   useGetSellerCustomersQuery,
   useGetSellerOrdersQuery,
 } from '../../../../store/services/sellerApi';
-import OrderStatusBadge from '../orders/components/OrderStatusBadge';
+import OrderStatusBadge from '../../../../features/seller/components/orders/OrderStatusBadge';
 
 export const CustomerDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();

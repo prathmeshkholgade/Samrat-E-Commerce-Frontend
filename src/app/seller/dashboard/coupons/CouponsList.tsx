@@ -14,9 +14,9 @@ import {
   useDeleteSellerCouponMutation,
 } from '../../../../store/services/sellerApi';
 
-import CouponFilters from './components/CouponFilters';
-import CouponTable from './components/CouponTable';
-import CouponFormModal from './components/CouponFormModal';
+import CouponFilters from '../../../../features/seller/components/coupons/CouponFilters';
+import CouponTable from '../../../../features/seller/components/coupons/CouponTable';
+import CouponFormModal from '../../../../features/seller/components/coupons/CouponFormModal';
 import type { SellerCoupon } from '../../../../shared/types';
 
 export const CouponsList: React.FC = () => {

@@ -11,13 +11,13 @@ import {
 import { useAppSelector } from '../../../store';
 
 // Widgets
-import DashboardCard from './shared/components/DashboardCard';
-import DashboardChart from './shared/components/DashboardChart';
-import RecentOrdersTable from './shared/components/RecentOrdersTable';
-import TopProductsWidget from './shared/components/TopProductsWidget';
-import LowStockWidget from './shared/components/LowStockWidget';
-import ReviewWidget from './shared/components/ReviewWidget';
-import QuickActions from './shared/components/QuickActions';
+import DashboardCard from '../../../features/seller/components/dashboard/DashboardCard';
+import DashboardChart from '../../../features/seller/components/dashboard/DashboardChart';
+import RecentOrdersTable from '../../../features/seller/components/dashboard/RecentOrdersTable';
+import TopProductsWidget from '../../../features/seller/components/dashboard/TopProductsWidget';
+import LowStockWidget from '../../../features/seller/components/dashboard/LowStockWidget';
+import ReviewWidget from '../../../features/seller/components/dashboard/ReviewWidget';
+import QuickActions from '../../../features/seller/components/dashboard/QuickActions';
 
 export const DashboardHome: React.FC = () => {
   // Redux dashboard state selector

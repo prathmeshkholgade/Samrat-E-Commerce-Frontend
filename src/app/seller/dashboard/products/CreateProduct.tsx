@@ -6,13 +6,13 @@ import { setStep, resetWizard } from '../../../../store/slices/productCreateSlic
 import { useAddSellerProductMutation } from '../../../../store/services/sellerApi';
 
 // Steps components
-import Step1BasicInfo from './components/steps/Step1BasicInfo';
-import Step2MediaUpload from './components/steps/Step2MediaUpload';
-import Step3Pricing from './components/steps/Step3Pricing';
-import Step4Inventory from './components/steps/Step4Inventory';
-import Step5Variants from './components/steps/Step5Variants';
-import Step6Shipping from './components/steps/Step6Shipping';
-import Step7SEO from './components/steps/Step7SEO';
+import Step1BasicInfo from '../../../../features/seller/components/products/steps/Step1BasicInfo';
+import Step2MediaUpload from '../../../../features/seller/components/products/steps/Step2MediaUpload';
+import Step3Pricing from '../../../../features/seller/components/products/steps/Step3Pricing';
+import Step4Inventory from '../../../../features/seller/components/products/steps/Step4Inventory';
+import Step5Variants from '../../../../features/seller/components/products/steps/Step5Variants';
+import Step6Shipping from '../../../../features/seller/components/products/steps/Step6Shipping';
+import Step7SEO from '../../../../features/seller/components/products/steps/Step7SEO';
 
 export const CreateProduct: React.FC = () => {
   const navigate = useNavigate();

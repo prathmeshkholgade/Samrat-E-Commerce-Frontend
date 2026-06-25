@@ -21,10 +21,10 @@ import {
 import type { SellerOrder } from '../../../../shared/types';
 
 // Reusable components
-import OrderTable from './components/OrderTable';
-import OrderFilters from './components/OrderFilters';
-import OrderDetailsModal from './components/OrderDetailsModal';
-import InvoiceTemplate from './components/InvoiceTemplate';
+import OrderTable from '../../../../features/seller/components/orders/OrderTable';
+import OrderFilters from '../../../../features/seller/components/orders/OrderFilters';
+import OrderDetailsModal from '../../../../features/seller/components/orders/OrderDetailsModal';
+import InvoiceTemplate from '../../../../features/seller/components/orders/InvoiceTemplate';
 
 export const OrdersList: React.FC = () => {
   const dispatch = useAppDispatch();
