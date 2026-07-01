@@ -10,8 +10,10 @@ import { useOnboarding } from './OnboardingContext';
 
 export const Step1BusinessInfo: React.FC = () => {
   const navigate = useNavigate();
-  const { businessInfo, setBusinessInfo } = useOnboarding();
+  const { businessInfo, setBusinessInfo, submitStep1 } = useOnboarding();
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const businessTypes = ['Sole Proprietorship', 'Partnership', 'Private Limited', 'LLP', 'Other'];
 
@@ -35,10 +37,19 @@ export const Step1BusinessInfo: React.FC = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleNext = (e: React.FormEvent) => {
+  const handleNext = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateStep1()) {
-      navigate('/seller/onboarding/step-2');
+      setIsLoading(true);
+      setErrorMsg('');
+      try {
+        await submitStep1();
+        navigate('/seller/onboarding/step-2');
+      } catch (err: any) {
+        setErrorMsg(err.response?.data?.message || err.message || 'Signup failed. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -52,6 +63,12 @@ export const Step1BusinessInfo: React.FC = () => {
               <h2 className="text-xl font-bold text-slate-800">Business Information</h2>
               <p className="text-xs font-semibold text-slate-400 mt-1">Register the contact person and legal entity names.</p>
             </div>
+
+            {errorMsg && (
+              <div className="p-4 bg-rose-50 border border-rose-100 rounded-2xl text-xs font-semibold text-rose-600">
+                {errorMsg}
+              </div>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Input
@@ -155,7 +172,7 @@ export const Step1BusinessInfo: React.FC = () => {
             </div>
 
             <div className="flex justify-end pt-6 border-t border-slate-100">
-              <Button type="submit" variant="primary" className="flex items-center gap-1.5">
+              <Button type="submit" variant="primary" isLoading={isLoading} className="flex items-center gap-1.5">
                 <span>Continue</span>
                 <ArrowRight size={16} />
               </Button>

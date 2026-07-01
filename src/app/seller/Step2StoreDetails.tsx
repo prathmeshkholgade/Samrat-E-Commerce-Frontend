@@ -10,8 +10,10 @@ import { useOnboarding } from './OnboardingContext';
 
 export const Step2StoreDetails: React.FC = () => {
   const navigate = useNavigate();
-  const { storeDetails, setStoreDetails } = useOnboarding();
+  const { storeDetails, setStoreDetails, submitStep2 } = useOnboarding();
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const categories = ['Electronics', 'Fashion & Apparel', 'Groceries & Foods', 'Home & Living', 'Beauty & Cosmetics', 'Sports & Fitness', 'Other'];
 
@@ -28,10 +30,19 @@ export const Step2StoreDetails: React.FC = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleNext = (e: React.FormEvent) => {
+  const handleNext = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateStep2()) {
-      navigate('/seller/onboarding/step-3');
+      setIsLoading(true);
+      setErrorMsg('');
+      try {
+        await submitStep2();
+        navigate('/seller/onboarding/step-3');
+      } catch (err: any) {
+        setErrorMsg(err.response?.data?.message || err.message || 'Failed to save store details. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -43,6 +54,12 @@ export const Step2StoreDetails: React.FC = () => {
             <h2 className="text-xl font-bold text-slate-800">Store Profile</h2>
             <p className="text-xs font-semibold text-slate-400 mt-1">Design your marketplace presence and provide support contacts.</p>
           </div>
+
+          {errorMsg && (
+            <div className="p-4 bg-rose-50 border border-rose-100 rounded-2xl text-xs font-semibold text-rose-600">
+              {errorMsg}
+            </div>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-6">
@@ -146,7 +163,7 @@ export const Step2StoreDetails: React.FC = () => {
               <span>Back</span>
             </Button>
 
-            <Button type="submit" variant="primary" className="flex items-center gap-1.5">
+            <Button type="submit" variant="primary" isLoading={isLoading} className="flex items-center gap-1.5">
               <span>Continue</span>
               <ArrowRight size={16} />
             </Button>

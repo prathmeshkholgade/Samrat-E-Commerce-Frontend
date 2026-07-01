@@ -9,10 +9,11 @@ import { useOnboarding } from './OnboardingContext';
 
 export const Step3BankDetails: React.FC = () => {
   const navigate = useNavigate();
-  const { businessInfo, bankDetails, setBankDetails, submitApplication } = useOnboarding();
-  
+  const { businessInfo, bankDetails, setBankDetails, submitStep3 } = useOnboarding();
+
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const validateStep3 = () => {
     const errors: { [key: string]: string } = {};
@@ -38,11 +39,12 @@ export const Step3BankDetails: React.FC = () => {
     if (!validateStep3()) return;
 
     setIsLoading(true);
+    setErrorMsg('');
     try {
-      await submitApplication();
+      await submitStep3();
       navigate('/seller/onboarding/success');
     } catch (err: any) {
-      alert(err.message || 'Submission failed. Please check files and try again.');
+      setErrorMsg(err.response?.data?.message || err.message || 'Submission failed. Please check files and try again.');
     } finally {
       setIsLoading(false);
     }
@@ -56,6 +58,12 @@ export const Step3BankDetails: React.FC = () => {
             <h2 className="text-xl font-bold text-slate-800">Verification & Payout Routing</h2>
             <p className="text-xs font-semibold text-slate-400 mt-1">Upload files for KYC and enter bank payout parameters.</p>
           </div>
+
+          {errorMsg && (
+            <div className="p-4 bg-rose-50 border border-rose-100 rounded-2xl text-xs font-semibold text-rose-600">
+              {errorMsg}
+            </div>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Documents Upload Grid */}

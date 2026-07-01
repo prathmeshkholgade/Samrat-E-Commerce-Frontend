@@ -41,6 +41,9 @@ interface OnboardingContextProps {
   applicationId: string;
   setApplicationId: (id: string) => void;
   submitApplication: () => Promise<string>;
+  submitStep1: () => Promise<void>;
+  submitStep2: () => Promise<void>;
+  submitStep3: () => Promise<string>;
   clearOnboarding: () => void;
 }
 
@@ -134,6 +137,51 @@ export const OnboardingProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   useEffect(() => {
     sessionStorage.setItem('samrat_onboard_appid', applicationId);
   }, [applicationId]);
+
+  const submitStep1 = async (): Promise<void> => {
+    const payload = {
+      fullName: businessInfo.fullName,
+      email: businessInfo.email,
+      mobile: `${businessInfo.dialCode} ${businessInfo.phone}`,
+      storeName: businessInfo.storeName,
+      businessName: businessInfo.businessName,
+      businessType: businessInfo.businessType,
+      gstNumber: businessInfo.gstNumber,
+      panNumber: businessInfo.panNumber,
+      password: businessInfo.password,
+    };
+    await sellerService.signupSeller(payload);
+  };
+
+  const submitStep2 = async (): Promise<void> => {
+    const payload = {
+      storeLogo: storeDetails.storeLogo,
+      storeBanner: storeDetails.storeBanner,
+      storeDescription: storeDetails.storeDescription,
+      businessCategory: storeDetails.businessCategory,
+      supportEmail: storeDetails.supportEmail,
+      supportPhone: `${storeDetails.supportPhoneDialCode} ${storeDetails.supportPhone}`,
+      websiteUrl: storeDetails.websiteUrl,
+    };
+    await sellerService.updateStoreDetails(payload);
+  };
+
+  const submitStep3 = async (): Promise<string> => {
+    const payload = {
+      panCardDoc: bankDetails.panCardDoc,
+      gstCertDoc: bankDetails.gstCertDoc,
+      businessRegDoc: bankDetails.businessRegDoc,
+      identityProofDoc: bankDetails.identityProofDoc,
+      accountHolderName: bankDetails.accountHolderName,
+      bankName: bankDetails.bankName,
+      accountNumber: bankDetails.accountNumber,
+      ifscCode: bankDetails.ifscCode,
+    };
+    const res = await sellerService.updateBankDetails(payload);
+    const appId = res?.data?.applicationId || `app_${Math.floor(100000 + Math.random() * 900000)}`;
+    setApplicationId(appId);
+    return appId;
+  };
 
   const submitApplication = async (): Promise<string> => {
     const payload = {
@@ -231,6 +279,9 @@ export const OnboardingProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         applicationId,
         setApplicationId,
         submitApplication,
+        submitStep1,
+        submitStep2,
+        submitStep3,
         clearOnboarding,
       }}
     >

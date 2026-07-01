@@ -1,4 +1,4 @@
-/**
+ /**
  * Registry of all API endpoints used by the client services.
  */
 export const AppEndpoints = {
@@ -10,9 +10,13 @@ export const AppEndpoints = {
     resendOtp: '/auth/resend-otp',
   },
   seller: {
+    signup: '/auth/seller/signup',
+    storeDetails: '/auth/seller/store-details',
+    bankDetails: '/auth/seller/bank-details',
     register: '/seller/register',
     status: (applicationId: string) => `/seller/status/${applicationId}`,
   },
 } as const;
 
 export default AppEndpoints;
+
